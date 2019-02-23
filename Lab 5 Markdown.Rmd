@@ -1,0 +1,67 @@
+---
+title: "Lab 5: Point Estimates and Interval Estimates"
+author: "Madeline Craft"
+date: "2/15/2019"
+output: html_document
+---
+
+Let's start by reading in our data. 
+
+```{r}
+setwd("/Users/madelinecraft/Desktop/103A Winter 2019/Week 1 Lab")
+getwd()
+mydata<-read.csv("edu_data.csv")
+head(mydata)
+```
+
+###Point Estimate of a Sample Proportion
+
+$$\hat{p} = \frac {x}{n}$$
+
+We are going to use the following code to calculate the proportion of people in this sample who go to school year round.
+
+```{r}
+frequencies <- table(mydata$yr_rnd)
+denominator <- sum(frequencies)
+denominator
+numerator <- frequencies[2]
+numerator
+proportion <- numerator/denominator 
+proportion
+```
+
+###Point Estimate of a Sample Mean
+
+$$\bar{x} = \frac {\sum x_{i}}{n}$$
+
+```{r}
+mean(mydata$meals)
+```
+
+###Interval Estimate for a Sample Proportion
+
+$$\hat{p} \pm crit.value * \sqrt \frac {\hat{p}*(1-\hat{p})}{n}$$
+
+The standard error of $\hat{p}$ is $\sqrt \frac {\hat{p}*(1-\hat{p})}{n}$ and the margin of error is $crit.value * \sqrt \frac {\hat{p}*(1-\hat{p})}{n}$. So, rather than calculating the interval estimate by hand, let's use the following function to calculate it for us!
+
+```{r}
+?prop.test
+prop.test(90, 315, alternative = c("two.sided"), conf.level = 0.95)
+prop.test(90, 315, alternative = c("greater"), conf.level = 0.95)
+prop.test(90, 315, alternative = c("less"), conf.level = 0.95)
+```
+
+###Interval Estimate for a Sample Mean
+
+$$\bar{x} \pm crit.val * \sqrt \frac {\sigma^2}{n}$$
+
+What is the point estimate?  
+What is the margin of error?  
+What is the standard error of the point estimate?
+
+Rather than calculating the interval estimate by hand, let's use the following function to calculate it for us!
+
+```{r}
+?t.test
+t.test(mydata$meals, conf.level = 0.95)
+```
